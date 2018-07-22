@@ -1,34 +1,48 @@
-﻿function Menu
-{
-     param (
-           [string]$Title = 'Virtuelle Verzeichnise'
-     )
-     cls
-     Write-Host "$Title"
-     Write-Host " "
-     Write-Host "1: Anzeigen."
-     Write-Host "2: Bearbeiten."
-     Write-Host "3: Script beenden."
-     Write-Host " "
-}
-do
-{
-     Menu
-     $input = Read-Host "Auswahl"
-     switch ($input)
-     {
-           '1' {
-                cls
-                'Anzeigen'
-                Get-ECPVirtualDirectory | Format-List Name,InternalURL,ExternalURL
+﻿Add-PSSnapin *exchange* -ErrorAction Ignore
 
-           } '2' {
-                cls
-                'Bearbeiten'
-           }  '3' {
-                return
-           }
-     }
-     pause
+function VirtuelleVerzeichnisseAnzeigen() {
+    Clear
+        
+    Write-Host "Anzeigen`n"
+
+    Get-ECPVirtualDirectory | Format-List Name,InternalURL,ExternalURL
+
+    Read-Host "Enter für weiter" | Out-Null
 }
-until ($input -eq '3')
+
+function VirtuelleVerzeichnisseBearbeiten() {
+    Clear
+        
+    Write-Host "Anzeigen`n"
+
+    Get-ECPVirtualDirectory | Format-List Name,InternalURL,ExternalURL
+
+    Read-Host "Enter für weiter" | Out-Null
+}
+
+
+function Menu
+{
+    do
+    {
+        Clear
+
+        Write-Host "Virtuelle Verzeichnisse"
+        Write-Host " "
+        Write-Host "1: Anzeigen."
+        Write-Host "2: Bearbeiten."
+        Write-Host "3: Skript beenden."
+        Write-Host ""
+    
+        $input = Read-Host -Prompt "Auswahl"
+
+        switch ($input)
+        {
+            '1' { VirtuelleVerzeichnisseAnzeigen } 
+            
+            '2' { VirtuelleVerzeichnisseBearbeiten }  
+        }
+    } until ($input -eq '3')
+}
+
+Menu
